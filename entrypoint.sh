@@ -45,7 +45,6 @@ RESOURCES=(
   'resourcequotas'
   'rolebindings'
   'roles'
-  'secrets'
   'serviceaccounts'
   'services'
   'statefulsets'
