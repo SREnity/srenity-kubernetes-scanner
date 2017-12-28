@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo $(docker ps)
+
+CONTAINER_ID=$(docker ps -qa --filter "image=${REPOSITORY_NAME}" | awk '{print $1}')
+echo "CONTAINER_ID => ${CONTAINER_ID}"
+
+RUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER_ID)
+
+if [ $? -eq 1 ]; then
+  echo "UNKNOWN - $CONTAINER_ID does not exist."
+  return 3
+fi
+
+if [ "$RUNNING" == "false" ]; then
+  echo "CRITICAL - $CONTAINER_ID is not running. Printing container logs..."
+  echo $(docker logs $CONTAINER_ID)
+
+  return 2
+else
+  return 0
+fi

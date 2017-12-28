@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: srenity-deploy-secrets
+  namespace: kube-system
+type: Opaque
+data:
+  public_id: {PUBLIC_ID_PLACEHOLDER}
+  private_key: {PRIVATE_KEY_PLACEHOLDER}
+
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: srenity-kubernetes-scanner
+  namespace: kube-system
+spec:
+  schedule: "00-50/10 * * * *"
+  startingDeadlineSeconds: 60
+  failedJobsHistoryLimit: 10
+  successfulJobsHistoryLimit: 10
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 600
+      template:
+        spec:
+          containers:
+          - name: srenity-kubernetes-scanner
+            image: quay.io/srenity/srenity-kubernetes-scanner:master
+            imagePullPolicy: IfNotPresent
+            resources:
+              limits:
+                cpu: 100m
+                memory: 256Mi
+              requests:
+                cpu: 100m
+                memory: 256Mi
+            env:
+            - name: PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: srenity-deploy-secrets
+                  key: private_key
+            - name: PUBLIC_ID
+              valueFrom:
+                secretKeyRef:
+                  name: srenity-deploy-secrets 
+                  key: public_id
+          restartPolicy: Never

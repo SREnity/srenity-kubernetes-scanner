@@ -1,0 +1,45 @@
+machine:
+  timezone:
+    UTC
+  environment:
+    PATH: $PATH:node_modules/.bin
+    EXTERNAL_REGISTRY_BASE_DOMAIN: quay.io/srenity
+    REPOSITORY_NAME: srenity-kubernetes-scanner
+
+    CI_SHA1: $CIRCLE_SHA1
+    CI_BRANCH: $CIRCLE_BRANCH
+    CI_BUILD_NUM: $CIRCLE_BUILD_NUM
+
+    DOCKERTAG: srenity-kubernetes-scanner
+    SERVICENAME: srenity-kubernetes-scanner
+
+  services:
+    - docker
+
+dependencies:
+  pre:
+    - npm install
+    - docker login -e "." -u $QUAY_USERNAME -p $QUAY_PASSWORD quay.io
+    - docker-pull
+    - docker-build -f deploy/common.config
+  override:
+    - echo "overriding inferred dependencies"
+
+database:
+  override:
+    - echo "overriding inferred dependencies"
+
+test:
+  override:
+    - docker run -d --net=host 
+      -v $CIRCLE_TEST_REPORTS:/circleci/reports
+      -v $CIRCLE_ARTIFACTS:/circleci/artifacts
+      -e CIRCLE_ARTIFACTS=/circleci/artifacts
+      $REPOSITORY_NAME; sleep 5
+    - source bin/verify-container
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - docker-push -f deploy/production.config

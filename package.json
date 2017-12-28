@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "k8s-scripts": "git://github.com/reactiveops/k8s-scripts.git#v3.4.1"
+  }
+}
