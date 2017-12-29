@@ -96,4 +96,4 @@ cat cluster_dump.tmp.enc | base64 -w0 >> final_data.json
 echo -n '"}' >> final_data.json
 
 echo "$(date -u): Sending data to srenitydashboard.io external endpoint."
-curl -H "Authorization: Token token=\"${PUBLIC_ID}:${PRIVATE_KEY}\"" -H 'Content-type: application/json' --data @final_data.json -vvv 'https://srenitydashboard.io/api/v1/user_plugins/external_update.json'
+curl -H "Authorization: Token token=\"$(echo -n ${PUBLIC_ID}):$(echo -n ${PRIVATE_KEY})\"" -H 'Content-type: application/json' --data @final_data.json -vvv 'localhost:3000/api/v1/user_plugins/external_update.json'

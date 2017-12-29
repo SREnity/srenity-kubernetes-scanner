@@ -1,2 +1,9 @@
 srenity-service-secret-deployment.yaml
 cluster_dump.tmp
+
+*.pem*
+*.json*
+*.bin*
+*.enc*
+*.tmp*
+*.sha*
