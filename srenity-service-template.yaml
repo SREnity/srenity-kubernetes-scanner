@@ -16,7 +16,7 @@ metadata:
   name: srenity-kubernetes-scanner
   namespace: kube-system
 spec:
-  schedule: "00-50/10 * * * *"
+  schedule: "*/10 * * * *"
   startingDeadlineSeconds: 60
   failedJobsHistoryLimit: 10
   successfulJobsHistoryLimit: 10
@@ -24,7 +24,7 @@ spec:
   jobTemplate:
     spec:
       activeDeadlineSeconds: 600
-      backoffLimit: 1
+      backoffLimit: 2
       template:
         spec:
           containers:
@@ -34,10 +34,10 @@ spec:
             resources:
               limits:
                 cpu: 100m
-                memory: 256Mi
+                memory: 512Mi
               requests:
                 cpu: 100m
-                memory: 256Mi
+                memory: 512Mi
             env:
             - name: PRIVATE_KEY
               valueFrom:
