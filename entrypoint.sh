@@ -89,7 +89,7 @@ echo "$(date -u): Encrypting secret with public key."
 openssl rsautl -encrypt -inkey public_key.pem -pubin -in secret_key_data.bin -out secret_key.bin.enc
 
 echo "$(date -u): Testing decryption."
-openssl enc -aes-256-cbc -d -in cluster_dump.tmp.enc -out cluster_dump.tmp.final -iv $IV -K $KEY -p
+openssl enc -aes-256-cbc -nosalt -d -in cluster_dump.tmp.enc -out cluster_dump.tmp.final -iv $IV -K $KEY -p
 
 diff cluster_dump.tmp cluster_dump.tmp.final
 
