@@ -77,9 +77,7 @@ done
 echo "}" >> cluster_dump.tmp
 
 
-echo "$(date -u): Creating shared secret for encryption."
-openssl rand -base64 16 -out secret_key.bin
-
+echo "$(date -u): Creating shared secrets for encryption."
 KEY=$(openssl rand -hex 32 | awk '{print toupper($0)}')
 IV=$(openssl rand -hex 16 | awk '{print toupper($0)}')
 echo "$KEY:$IV" > secret_key_data.bin
