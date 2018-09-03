@@ -83,7 +83,7 @@ IV=$(openssl rand -hex 16 | awk '{print toupper($0)}')
 echo -n "$KEY:$IV" > secret_key_data.bin
 
 echo "$(date -u): Encrypting JSON with new secret."
-openssl enc -aes-256-cbc -salt -in cluster_dump.tmp -out cluster_dump.tmp.enc -iv $IV -K $KEY -p
+openssl enc -aes-256-cbc -nosalt -in cluster_dump.tmp -out cluster_dump.tmp.enc -iv $IV -K $KEY -p
 
 echo "$(date -u): Encrypting secret with public key."
 openssl rsautl -encrypt -inkey public_key.pem -pubin -in secret_key_data.bin -out secret_key.bin.enc
