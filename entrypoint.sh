@@ -80,7 +80,7 @@ echo "}" >> cluster_dump.tmp
 echo "$(date -u): Creating shared secrets for encryption."
 KEY=$(openssl rand -hex 32 | awk '{print toupper($0)}')
 IV=$(openssl rand -hex 16 | awk '{print toupper($0)}')
-echo "$KEY:$IV" > secret_key_data.bin
+echo -n "$KEY:$IV" > secret_key_data.bin
 
 echo "$(date -u): Encrypting JSON with new secret."
 openssl enc -aes-256-cbc -salt -in cluster_dump.tmp -out cluster_dump.tmp.enc -iv $IV -K $KEY -p
