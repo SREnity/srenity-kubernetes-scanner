@@ -78,8 +78,7 @@ echo "}" >> cluster_dump.tmp
 
 # Kube dumps some weird non-JSON values to indicate (MISSING) which breaks
 #   our future processing.
-perl -pi -e 's/\(.+\),$/,/g' cluster_dump.tmp 
-perl -pi -e 's/\(.+\)$//g' cluster_dump.tmp 
+perl -pi -e 's/\(MISSING\)//g' cluster_dump.tmp 
 
 cat cluster_dump.tmp | jq type
 if [ $? -ne 0 ]; then
