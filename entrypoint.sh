@@ -84,6 +84,8 @@ cat cluster_dump.tmp | jq type
 if [ $? -ne 0 ]; then
   echo "Scan has created invalid JSON."
   exit 1
+else
+  echo "Cluster JSON is valid!"
 fi
 
 echo "$(date -u): Creating shared secrets for encryption."
