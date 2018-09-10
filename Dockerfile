@@ -5,7 +5,7 @@ MAINTAINER Robert Warmack <robert@srenity.io>
 ENV PUBLIC_ID "XXXX"
 ENV PRIVATE_KEY "XXXX"
 
-RUN apk --no-cache add coreutils jq openssl
+RUN apk --no-cache add coreutils jq openssl perl
 RUN apk --update add openjdk7-jre
 RUN gcloud components install kubectl
 
