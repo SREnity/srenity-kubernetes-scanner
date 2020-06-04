@@ -2,7 +2,7 @@
 set -e
 
 echo "$(date -u): Pulling public key information from srenitydashboard.io"
-curl 'https://srenitydashboard.io/api/v1/public_keys/latest.json' > public_key.json
+curl 'https://stage.srenitydashboard.io/api/v1/public_keys/latest.json' > public_key.json
 
 cat public_key.json | jq '.key_body' | sed -e 's/^"//' -e 's/"$//' -e 's/\\n/\n/g' > public_key.pem
 cat public_key.json | jq '.key_hash' | sed -e 's/^"//' -e 's/"$//' -e 's/\\n/\n/g' > public_key.sha
